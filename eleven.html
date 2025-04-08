@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Download Excel Receipt | FixFlow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fefce8;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #ca8a04;
+      margin-bottom: 2rem;
+    }
+
+    .receipt {
+      line-height: 1.8;
+      font-size: 1rem;
+      color: #444;
+    }
+
+    .label {
+      font-weight: bold;
+      color: #92400e;
+    }
+
+    .download-btn {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #059669;
+      border: none;
+      color: white;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #047857;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Maintenance Request Receipt</h1>
+    <div class="receipt" id="receiptData">
+      <p><span class="label">Name:</span> Lakshmi Priya R</p>
+      <p><span class="label">Registration Number:</span> 23BCB0169</p>
+      <p><span class="label">Block & Room Number:</span> C-304</p>
+      <p><span class="label">Type of Work:</span> Electrical</p>
+      <p><span class="label">Request Submitted On:</span> 2025-04-03 10:42 AM</p>
+      <p><span class="label">Issue Resolved On:</span> 2025-04-03 12:15 PM</p>
+      <p><span class="label">Status:</span> Completed ✅</p>
+      <p><span class="label">Comments:</span> Light bulb fused in bathroom. Resolved within 90 minutes.</p>
+    </div>
+
+    <div class="download-btn">
+      <button onclick="downloadExcel()">📊 Download Excel</button>
+    </div>
+  </div>
+
+  <script>
+    function downloadExcel() {
+      const data = [
+        ["Field", "Value"],
+        ["Name", "Lakshmi Priya R"],
+        ["Registration Number", "23BCB0169"],
+        ["Block & Room Number", "f-305"],
+        ["Type of Work", "Electrical"],
+        ["Request Submitted On", "2025-04-03 10:42 AM"],
+        ["Issue Resolved On", "2025-04-03 12:15 PM"],
+        ["Status", "Completed ✅"],
+        ["Comments", "Light bulb fused in bathroom. Resolved within 90 minutes."]
+      ];
+
+      const worksheet = XLSX.utils.aoa_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "MaintenanceReceipt");
+
+      XLSX.writeFile(workbook, "FixFlow_Receipt.xlsx");
+    }
+  </script>
+</body>
+</html>

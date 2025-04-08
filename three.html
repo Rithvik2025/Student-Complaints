@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Maintenance Nexus | TN University</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #3b82f6;
+            --accent: #60a5fa;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --success: #22c55e;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            letter-spacing: -0.05em;
+        }
+
+        .grid-system {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .form-section {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.75rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            outline: none;
+        }
+
+        .file-upload {
+            border: 2px dashed #cbd5e1;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.03);
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-1px);
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 75%;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .grid-system {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        /* Advanced Animations */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animated {
+            animation: slideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
+
+        .upload-preview {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .preview-item {
+            position: relative;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            place-items: center;
+            z-index: 999;
+        }
+
+        .spinner {
+            width: 3rem;
+            height: 3rem;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="container glass-panel animated">
+        <header class="header">
+            <h1>Campus Maintenance Nexus</h1>
+            <p>Advanced Maintenance Management System | Tamil Nadu University</p>
+        </header>
+
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <h3>Pending Requests</h3>
+                <p class="stat-value">24</p>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <h3>Resolution Rate</h3>
+                <p class="stat-value">92%</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 92%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-system">
+            <form id="maintenanceForm" enctype="multipart/form-data" class="form-section">
+                <div class="form-group">
+                    <label>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        Student Information
+                    </label>
+                    <div class="grid-system gap-4">
+                        <input type="text" class="form-control" placeholder="Registration Number" required>
+                        <input type="text" class="form-control" placeholder="Student Name" required>
+                        <input type="text" class="form-control" placeholder="Block & Room Number" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2v20M2 12h20"></path>
+                        </svg>
+                        Request Details
+                    </label>
+                    <select class="form-control" required>
+                        <option value="">Select Work Type</option>
+                        <option value="electrical">Electrical Systems</option>
+                        <option value="plumbing">Plumbing Infrastructure</option>
+                        <option value="cleaning">Sanitation & Cleaning</option>
+                        <option value="internet">Network Services</option>
+                        <option value="laundry">Laundry Facilities</option>
+                        <option value="other">Other Services</option>
+                    </select>
+                    <textarea class="form-control mt-4" rows="4" placeholder="Detailed Description..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Attach Supporting Documents
+                    </label>
+                    <div class="file-upload">
+                        <input type="file" class="form-control" accept=".pdf,.doc,.docx,.jpg,.jpeg" multiple>
+                        <p class="text-muted mt-2">Drag & drop files or click to upload</p>
+                        <div class="upload-preview"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <a href="four.html" style="background: var(--primary); color: white; padding: 0.75rem 1.5rem; border-radius: 0.75rem; text-decoration: none;"> Submit Maintenance Request</a>
+                </button>
+            </form>
+
+            <div class="form-section">
+                <h3 class="mb-4">System Analytics</h3>
+                <div class="stat-card">
+                    <h4>Request Distribution</h4>
+                    <canvas id="chart"></canvas>
+                </div>
+                <div class="stat-card mt-4">
+                    <h4>Recent Activity</h4>
+                    <div class="activity-list">
+                        <!-- Dynamic activity items -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Advanced Form Handling
+        const loadingOverlay = document.querySelector('.loading-overlay');
+        
+        document.getElementById('maintenanceForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loadingOverlay.style.display = 'grid';
+            
+            // Simulated API call
+            setTimeout(() => {
+                loadingOverlay.style.display = 'none';
+                showNotification('Request submitted successfully!', 'success');
+                e.target.reset();
+            }, 2000);
+        });
+
+        // File Upload Preview
+        const fileInput = document.querySelector('input[type="file"]');
+        const previewContainer = document.querySelector('.upload-preview');
+
+        fileInput.addEventListener('change', () => {
+            previewContainer.innerHTML = '';
+            Array.from(fileInput.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    previewItem.innerHTML = `
+                        <img src="${e.target.result}" alt="${file.name}" style="height: 80px">
+                    `;
+                    previewContainer.appendChild(previewItem);
+                }
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // Chart Initialization
+        const ctx = document.getElementById('chart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Electrical', 'Plumbing', 'Cleaning', 'Internet'],
+                datasets: [{
+                    data: [12, 19, 3, 5],
+                    backgroundColor: ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        function showNotification(message, type) {
+            // Implement toast notification system
+            alert(message);
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

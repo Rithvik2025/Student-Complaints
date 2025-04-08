@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Campus Analytics | TN University</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .analysis-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .analysis-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .chart-container {
+            height: 400px;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .methodology {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 2rem 0;
+        }
+
+        .key-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 1rem;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .nav-academic {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .nav-link {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            background: var(--secondary);
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="nav-academic">
+            <a href="index.html" class="nav-link">Submit Request</a>
+            <a href="eight.html" class="nav-link">Advanced Analytics</a>
+        </nav>
+
+        <div class="header">
+            <h1>Smart Campus Maintenance Analysis</h1>
+            <p>An Integrated Approach to Facility Management Optimization</p>
+        </div>
+
+        <div class="methodology">
+            <h2>Research Methodology</h2>
+            <ul style="margin-top: 1rem;">
+                <li>📊 Data Collection: IoT sensors + manual reporting</li>
+                <li>🧠 Analysis: Machine learning (Random Forest algorithm)</li>
+                <li>⏱ Response Time: Measured from ticket creation to resolution</li>
+                <li>📈 Efficiency Score: Weighted combination of time/cost/quality</li>
+            </ul>
+        </div>
+
+        <div class="key-metrics">
+            <div class="metric-card">
+                <h3>Average Resolution Time</h3>
+                <p class="stat-value">2.4 hrs</p>
+                <small>↓ 18% from last quarter</small>
+            </div>
+            <div class="metric-card">
+                <h3>Preventive Maintenance</h3>
+                <p class="stat-value">68%</p>
+                <small>AI-predicted issues resolved</small>
+            </div>
+            <div class="metric-card">
+                <h3>Cost Efficiency</h3>
+                <p class="stat-value">$142k saved</p>
+                <small>YTD through optimization</small>
+            </div>
+        </div>
+
+        <div class="research-grid">
+            <div class="analysis-card">
+                <h2>Request Distribution Analysis</h2>
+                <div class="chart-container">
+                    <canvas id="requestChart"></canvas>
+                </div>
+                <p class="chart-caption">Figure 1: Distribution of maintenance requests by category (2024)</p>
+            </div>
+
+            <div class="analysis-card">
+                <h2>Resolution Efficiency Timeline</h2>
+                <div class="chart-container">
+                    <canvas id="efficiencyChart"></canvas>
+                </div>
+                <p class="chart-caption">Figure 2: Monthly resolution efficiency scores with trend line</p>
+            </div>
+        </div>
+
+        <div class="analysis-card">
+            <h2>Predictive Maintenance Forecast</h2>
+            <div class="chart-container">
+                <canvas id="forecastChart"></canvas>
+            </div>
+            <div style="margin-top: 1rem;">
+                <h4>Key Observations:</h4>
+                <ul>
+                    <li>Electrical systems require most preventive maintenance</li>
+                    <li>Plumbing issues show seasonal patterns</li>
+                    <li>HVAC efficiency improves with regular servicing</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Request Distribution Chart
+        new Chart(document.getElementById('requestChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Electrical', 'Plumbing', 'HVAC', 'Structural', 'Other'],
+                datasets: [{
+                    label: 'Requests',
+                    data: [45, 32, 28, 15, 20],
+                    backgroundColor: '#3498db'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false }
+                }
+            }
+        });
+
+        // Efficiency Timeline Chart
+        new Chart(document.getElementById('efficiencyChart'), {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Efficiency Score',
+                    data: [78, 82, 85, 88, 90, 92],
+                    borderColor: '#e74c3c',
+                    tension: 0.4
+                }]
+            }
+        });
+
+        // Forecast Chart
+        new Chart(document.getElementById('forecastChart'), {
+            type: 'radar',
+            data: {
+                labels: ['Electrical', 'Plumbing', 'HVAC', 'Structural', 'Network'],
+                datasets: [{
+                    label: 'Maintenance Need Forecast',
+                    data: [85, 70, 78, 60, 65],
+                    backgroundColor: 'rgba(52, 152, 219, 0.2)'
+                }]
+            }
+        });
+    </script>
+</body>
+</html>
